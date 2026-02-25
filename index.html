@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Amazon Picks | Pro Edition</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+/* ===============================
+   ???? DAY / NIGHT TOGGLE ICON
+   =============================== */
+
+.theme-btn{
+    position:absolute;
+    right:20px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width:52px;
+    height:52px;
+    border:none;
+    border-radius:50%;
+    cursor:pointer;
+    background:linear-gradient(135deg,#ffb347,#ffcc33);
+    box-shadow:
+        0 0 15px rgba(255,200,0,.9),
+        0 0 35px rgba(255,170,0,.8);
+    transition:.5s ease;
+    overflow:hidden;
+}
+
+/* ICON BASE */
+.theme-btn .icon{
+    position:absolute;
+    font-size:22px;
+    transition:.5s ease;
+}
+
+/* SUN */
+.theme-btn .sun{
+    opacity:1;
+    transform:scale(1) rotate(0deg);
+    filter:drop-shadow(0 0 8px #ffd700);
+}
+
+/* MOON */
+.theme-btn .moon{
+    opacity:0;
+    transform:scale(0) rotate(-180deg);
+    filter:drop-shadow(0 0 10px #00eaff);
+}
+
+/* ?? NIGHT MODE */
+body.night .theme-btn{
+    background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+    box-shadow:
+        0 0 18px rgba(0,255,255,.9),
+        0 0 40px rgba(106,0,255,.9);
+}
+
+body.night .theme-btn .sun{
+    opacity:0;
+    transform:scale(0) rotate(180deg);
+}
+
+body.night .theme-btn .moon{
+    opacity:1;
+    transform:scale(1.2) rotate(0deg);
+}
+
+/* HOVER MAGIC */
+.theme-btn:hover{
+    transform:rotate(15deg) scale(1.1);
+    box-shadow:
+        0 0 30px rgba(255,255,255,1),
+        0 0 70px rgba(255,170,0,1);
+}
+
+/* NIGHT HOVER */
+body.night .theme-btn:hover{
+    box-shadow:
+        0 0 30px rgba(0,255,255,1),
+        0 0 80px rgba(106,0,255,1);
+}
+
+/* PULSE ANIMATION */
+.theme-btn{
+    animation:themePulse 2.5s ease-in-out infinite;
+}
+
+@keyframes themePulse{
+    0%{transform:scale(1)}
+    50%{transform:scale(1.08)}
+    100%{transform:scale(1)}
+}
+::-webkit-scrollbar{
+    width:16px;
+}
+
+/* Track */
+::-webkit-scrollbar-track{
+    background:linear-gradient(
+        180deg,
+        #0f2027,
+        #203a43,
+        #2c5364
+    );
+    box-shadow:
+        inset 0 0 12px rgba(0,0,0,.8),
+        inset 0 0 30px rgba(0,0,0,.6);
+}
+
+/* Thumb */
+::-webkit-scrollbar-thumb{
+    border-radius:20px;
+    background:linear-gradient(
+        180deg,
+        #ff0080,
+        #ff8c00,
+        #ffee00,
+        #00ffea,
+        #6a00ff,
+        #ff0080
+    );
+    background-size:400% 400%;
+
+    box-shadow:
+        0 0 15px rgba(255,153,0,.9),
+        0 0 35px rgba(255,94,0,.8),
+        inset 0 0 8px rgba(255,255,255,.5);
+
+    animation:
+        scrollRGB 6s linear infinite,
+        scrollPulse 2.2s ease-in-out infinite;
+}
+
+/* Hover BOOST */
+::-webkit-scrollbar-thumb:hover{
+    background-size:600% 600%;
+    box-shadow:
+        0 0 25px rgba(255,200,0,1),
+        0 0 60px rgba(255,94,0,1),
+        inset 0 0 12px rgba(255,255,255,.9);
+
+    animation:
+        scrollRGB 3s linear infinite,
+        scrollPulse 1.4s ease-in-out infinite,
+        scrollShake .25s infinite;
+}
+
+/* Corner */
+::-webkit-scrollbar-corner{
+    background:#131921;
+}
+
+/* ===============================
+   ??? SCROLL ANIMATIONS
+   =============================== */
+
+@keyframes scrollRGB{
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+
+@keyframes scrollPulse{
+    0%{
+        filter:brightness(1) saturate(1);
+    }
+    50%{
+        filter:brightness(1.4) saturate(1.8);
+    }
+    100%{
+        filter:brightness(1) saturate(1);
+    }
+}
+
+@keyframes scrollShake{
+    0%{transform:translateX(0)}
+    25%{transform:translateX(1px)}
+    50%{transform:translateX(-1px)}
+    75%{transform:translateX(1px)}
+    100%{transform:translateX(0)}
+}
+
+body.night ::-webkit-scrollbar-track{
+    background:linear-gradient(
+        180deg,
+        #0b111a,
+        #1a2233,
+        #2c3a4f
+    );
+}
+
+body.night ::-webkit-scrollbar-thumb{
+    box-shadow:
+        0 0 18px rgba(0,255,255,.9),
+        0 0 45px rgba(106,0,255,.9),
+        inset 0 0 10px rgba(255,255,255,.4);
+}
+:root{
+--navy:#131921;
+--light-navy:#232f3e;
+--orange:#f3a847;
+--bg:#eaeded;
+--text:#111;
+--card-bg:#fff;
+--btn-bg:#ffa41c;
+}
+
+body.night{
+--navy:#0b111a;
+--light-navy:#1a2233;
+--orange:#ff9900;
+--bg:#0f1620;
+--text:#eee;
+--card-bg:#1c2433;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;font-family:Segoe UI,Arial}
+body{
+background:var(--bg);
+color:var(--text);
+transition:.4s;
+}
+
+/* HEADER */
+header{
+background:var(--navy);
+padding:14px 0;
+position:sticky;
+top:0;
+z-index:1000;
+display:flex;
+align-items:center;
+justify-content:center;
+}
+
+/* LOGO */
+.logo{
+font-size:28px;
+font-weight:900;
+color:#fff;
+text-decoration:none;
+text-shadow:0 0 15px rgba(255,164,28,.9);
+animation:floatLogo 4s ease-in-out infinite;
+}
+.logo span{
+background:linear-gradient(90deg,#ff0080,#ff8c00,#ffee00,#00ffea,#6a00ff);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+background-size:300%;
+animation:rgbFlow 6s linear infinite;
+}
+
+/* MENU TOGGLE */
+.menu-toggle{
+position:absolute;
+left:20px;
+top:50%;
+transform:translateY(-50%);
+width:30px;height:22px;
+display:flex;
+flex-direction:column;
+justify-content:space-between;
+cursor:pointer;
+}
+.menu-toggle span{
+height:3px;background:#fff;border-radius:3px;transition:.3s;
+}
+.menu-toggle.active span:nth-child(1){transform:rotate(45deg) translateY(9px)}
+.menu-toggle.active span:nth-child(2){opacity:0}
+.menu-toggle.active span:nth-child(3){transform:rotate(-45deg) translateY(-9px)}
+
+/* THEME BTN */
+#theme-toggle{
+position:absolute;
+right:20px;
+background:var(--orange);
+border:none;
+padding:8px 14px;
+border-radius:6px;
+cursor:pointer;
+font-weight:600;
+}
+
+/* CATEGORY NAV */
+.category-nav{
+position:fixed;
+left:-260px;
+top:0;
+width:240px;
+height:100vh;
+background:var(--light-navy);
+padding:90px 20px;
+display:flex;
+flex-direction:column;
+gap:14px;
+transition:.35s;
+z-index:999;
+}
+.category-nav.open{left:0}
+
+.cat-btn{
+display:flex;
+align-items:center;
+gap:12px;
+padding:12px 14px;
+border-radius:8px;
+cursor:pointer;
+color:#fff;
+transition:.3s;
+}
+.cat-btn i{
+color:#ffa41c;
+font-size:18px;
+}
+.cat-btn:hover,
+.cat-btn.active{
+background:#fff;
+color:#131921;
+font-weight:700;
+}
+
+/* CONTENT */
+.container{max-width:1300px;margin:30px auto;padding:0 20px}
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+gap:25px;
+}
+
+/* CARD */
+.card{
+background:var(--card-bg);
+border-radius:12px;
+padding:20px;
+display:flex;
+flex-direction:column;
+animation:fade .4s forwards;
+transition:.3s;
+}
+.card:hover{
+transform:translateY(-6px);
+box-shadow:0 12px 28px rgba(0,0,0,.18);
+}
+@keyframes fade{from{opacity:0;transform:translateY(15px)}to{opacity:1}}
+
+.img-box{
+height:200px;
+display:flex;
+align-items:center;
+justify-content:center;
+}
+.img-box img{
+max-width:100%;
+max-height:100%;
+object-fit:contain;
+}
+.title{color:#007185;margin:12px 0;font-weight:600}
+.rating{color:#f0c14b;margin-bottom:8px}
+.price{font-size:22px;font-weight:700;margin-bottom:15px}
+
+/* BUTTON */
+.btn{
+margin-top:auto;
+background:var(--btn-bg);
+color:#111;
+padding:12px;
+border-radius:25px;
+text-align:center;
+text-decoration:none;
+font-weight:700;
+}
+
+@keyframes rgbFlow{
+0%{background-position:0%}
+100%{background-position:300%}
+}
+@keyframes floatLogo{
+0%,100%{transform:translateY(0)}
+50%{transform:translateY(-4px)}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="menu-toggle" onclick="toggleMenu()">
+<span></span><span></span><span></span>
+</div>
+
+<a class="logo" href="https://www.amazon.com/b?node=53629917011" target="_blank">
+amazon<span>.picks</span>
+</a>
+
+<button id="theme-toggle">Night</button>
+</header>
+
+<div class="category-nav">
+<div class="cat-btn active" onclick="filterProducts('all',this)">
+<i class="fa-solid fa-layer-group"></i><span>All</span>
+</div>
+<div class="cat-btn" onclick="filterProducts('gaming',this)">
+<i class="fa-solid fa-gamepad"></i><span>Gaming</span>
+</div>
+<div class="cat-btn" onclick="filterProducts('perfume',this)">
+<i class="fa-solid fa-spray-can-sparkles"></i><span>Perfume</span>
+</div>
+<div class="cat-btn" onclick="filterProducts('smartwatch',this)">
+<i class="fa-solid fa-clock"></i><span>Smart Watch</span>
+</div>
+<div class="cat-btn" onclick="filterProducts('laptop',this)">
+<i class="fa-solid fa-laptop"></i><span>Laptop</span>
+</div>
+</div>
+
+<div class="container">
+<div class="grid" id="list"></div>
+</div>
+
+<script>
+const products = [
+  /* ===== GAMING ===== */
+  {
+    name: "Logitech G PRO X SUPERLIGHT 2 SE",
+    price: 159.99,
+    cat: "gaming",
+    img: "https://m.media-amazon.com/images/I/61UxfXTUyvL._AC_SL1500_.jpg",
+    link: "https://amzn.to/3OxuY4w"
+  },
+  {
+    name: "Logitech G305 LIGHTSPEED Wireless",
+    price: 59.99,
+    cat: "gaming",
+    img: "https://m.media-amazon.com/images/I/61LtuGzXeaL._AC_SL1500_.jpg",
+    link: "https://amzn.to/4tR718i"
+  },
+  {
+    name: "Logitech G735 Lightspeed RGB Headset",
+    price: 229.00,
+    cat: "gaming",
+    img: "https://m.media-amazon.com/images/I/61S-tVInYGL._AC_SL1500_.jpg",
+    link: "https://amzn.to/4qWDkAd"
+  },
+  {
+    name: "Razer BlackShark V2 X Gaming Headset",
+    price: 49.99,
+    cat: "gaming",
+    img: "https://m.media-amazon.com/images/I/61CGHv6kmWL._AC_SL1500_.jpg",
+    link: "https://amzn.to/46RrIao"
+  },
+  {
+    name: "Retro Handheld Game Console X9",
+    price: 35.99,
+    cat: "gaming",
+    img: "https://m.media-amazon.com/images/I/71Y82A9qOBL._AC_SL1500_.jpg",
+    link: "https://amzn.to/4kQk321"
+  },
+  {
+    name: "RGB Gaming Mouse Pad - Galaxy",
+    price: 19.99,
+    cat: "gaming",
+    img: "https://m.media-amazon.com/images/I/81I-uYl3I4L._AC_SL1500_.jpg",
+    link: "https://amzn.to/4aU72A2"
+  },
+  {
+    name: "Enstixsm Luna Game Controller",
+    price: 42.99,
+    cat: "gaming",
+    img: "https://m.media-amazon.com/images/I/61m1E6l6X0L._AC_SL1500_.jpg",
+    link: "https://amzn.to/4u816fB"
+  },
+  {
+    name: "Razer Orochi V2 Mobile Mouse",
+    price: 49.99,
+    cat: "gaming",
+    img: "https://m.media-amazon.com/images/I/61Q5w1zqk-L._AC_SL1500_.jpg",
+    link: "https://amzn.to/4aAru9S"
+  },
+  {
+    name: "Frigidaire Gaming Mini Refrigerator",
+    price: 45.00,
+    cat: "gaming",
+    img: "https://m.media-amazon.com/images/I/81k70YnU4+L._AC_SL1500_.jpg",
+    link: "https://amzn.to/4bEVhiJ"
+  },
+  {
+    name: "Handmade Crochet Game Controller",
+    price: 15.99,
+    cat: "gaming",
+    img: "https://m.media-amazon.com/images/I/71Lq2n53TGL._AC_SL1500_.jpg",
+    link: "https://amzn.to/4kETgWt"
+  },
+
+  /* ===== PERFUME ===== */
+  {
+    name: "Fragonard Mйlodie Perfume 30ML",
+    price: 49.99,
+    cat: "perfume",
+    img: "https://m.media-amazon.com/images/I/61tM2dQXrWL._AC_SL1500_.jpg",
+    link: "https://amzn.to/4kRlgGm"
+  },
+  {
+    name: "Pheromone Cologne for Men - Citrus",
+    price: 24.99,
+    cat: "perfume",
+    img: "https://m.media-amazon.com/images/I/61pW77I4VFL._AC_SL1500_.jpg",
+    link: "https://amzn.to/4b4X3sE"
+  },
+  {
+    name: "GUESS Seductive Blue Gift Set",
+    price: 35.00,
+    cat: "perfume",
+    img: "https://m.media-amazon.com/images/I/71kLQe2j2EL._AC_SL1500_.jpg",
+    link: "https://amzn.to/4b4TL8I"
+  },
+  {
+    name: "Al-Rehab Choco Musk Rollerball",
+    price: 9.99,
+    cat: "perfume",
+    img: "https://m.media-amazon.com/images/I/61lL7VJ6ZJL._AC_SL1500_.jpg",
+    link: "https://amzn.to/4rynxsx"
+  },
+  {
+    name: "Jayne's Mix Perfume Sampler Set",
+    price: 18.99,
+    cat: "perfume",
+    img: "https://m.media-amazon.com/images/I/61Kq-H6vYOL._AC_SL1500_.jpg",
+    link: "https://amzn.to/3OXog7W"
+  },
+  {
+    name: "DefineMe Natural Perfume 7-Set",
+    price: 28.00,
+    cat: "perfume",
+    img: "https://m.media-amazon.com/images/I/71-0Yp6Y98L._AC_SL1500_.jpg",
+    link: "https://amzn.to/4aGIx9a"
+  },
+  {
+    name: "Marvel Iron Man EDT 3.4oz",
+    price: 15.50,
+    cat: "perfume",
+    img: "https://m.media-amazon.com/images/I/71jA65qXpGL._AC_SL1500_.jpg",
+    link: "https://amzn.to/4qPwJY6"
+  },
+
+  /* ===== SMART WATCH ===== */
+  {
+    name: "Samsung Galaxy Watch 7 (40mm)",
+    price: 299.99,
+    cat: "smartwatch",
+    img: "https://m.media-amazon.com/images/I/61V2cZz6yWL._AC_SL1500_.jpg",
+    link: "https://www.amazon.com/dp/B0D1YQKDML"
+  },
+  {
+    name: "Fitbit Versa 4 Smartwatch",
+    price: 199.95,
+    cat: "smartwatch",
+    img: "https://m.media-amazon.com/images/I/61K8nB3DqOL._AC_SL1500_.jpg",
+    link: "https://www.amazon.com/dp/B0B4MWCFV4"
+  },
+  {
+    name: "Smart Watch - Fitness & Calls",
+    price: 49.99,
+    cat: "smartwatch",
+    img: "https://m.media-amazon.com/images/I/71X8F8P9ZzL._AC_SL1500_.jpg",
+    link: "https://www.amazon.com/dp/B0FSY8FT8C"
+  },
+  {
+    name: "Inspiratek Smartwatch Men/Women",
+    price: 39.99,
+    cat: "smartwatch",
+    img: "https://m.media-amazon.com/images/I/61-A795R1AL._AC_SL1500_.jpg",
+    link: "https://www.amazon.com/dp/B0B9JX7VM4"
+  },
+  {
+    name: "Smartwatch Answer/Make Calls",
+    price: 45.99,
+    cat: "smartwatch",
+    img: "https://m.media-amazon.com/images/I/71ZpS-3O7BL._AC_SL1500_.jpg",
+    link: "https://www.amazon.com/dp/B0DSZRN3YF"
+  },
+
+  /* ===== LAPTOP ===== */
+  {
+    name: "Apple 2025 MacBook Air 13-inch (M4)",
+    price: 1299.00,
+    cat: "laptop",
+    img: "https://m.media-amazon.com/images/I/71TPda7cwUL._AC_SL1500_.jpg",
+    link: "https://www.amazon.com/dp/B0D1QX1XXX"
+  },
+  {
+    name: "HP 14 Laptop (Windows 11)",
+    price: 249.99,
+    cat: "laptop",
+    img: "https://m.media-amazon.com/images/I/71Y3F5cQWPL._AC_SL1500_.jpg",
+    link: "https://www.amazon.com/dp/B0D2ABCYYY"
+  },
+  {
+    name: "Acer Aspire 3 15.6\" Full HD",
+    price: 329.00,
+    cat: "laptop",
+    img: "https://m.media-amazon.com/images/I/71m0929qLmL._AC_SL1500_.jpg",
+    link: "https://www.amazon.com/dp/B0D3DFGZZZ"
+  },
+  {
+    name: "Dell 15.6\" Laptop (Windows 11 Pro)",
+    price: 599.00,
+    cat: "laptop",
+    img: "https://m.media-amazon.com/images/I/71S-3O-oYKL._AC_SL1500_.jpg",
+    link: "https://www.amazon.com/dp/B0D4HIJKLM"
+  },
+  {
+    name: "HP Pavilion 15.6\" Touchscreen 16GB",
+    price: 749.00,
+    cat: "laptop",
+    img: "https://m.media-amazon.com/images/I/81tpA-H6VGL._AC_SL1500_.jpg",
+    link: "https://www.amazon.com/dp/B0D5NOPQRS"
+  },
+
+  /* ===== OTHERS & ACCESSORIES ===== */
+  {
+    name: "Mens Walking Shoes Slip On Tennis",
+    price: 39.99,
+    cat: "accessories",
+    img: "https://m.media-amazon.com/images/I/718fXm5hW9L._AC_UY1000_.jpg",
+    link: "https://www.amazon.com/dp/B0F18QZZJD"
+  },
+  {
+    name: "Everlasting Comfort Cloud Foot Rest",
+    price: 34.95,
+    cat: "accessories",
+    img: "https://m.media-amazon.com/images/I/71YyP6K-4NL._AC_SL1500_.jpg",
+    link: "https://amzn.to/4bFDGqX"
+  },
+  {
+    name: "VIENON 4-Port USB 3.0 Hub Splitter",
+    price: 9.99,
+    cat: "accessories",
+    img: "https://m.media-amazon.com/images/I/61S7p6rXmPL._AC_SL1500_.jpg",
+    link: "https://amzn.to/45TMmGt"
+  },
+  {
+    name: "VIENON 4-Port USB Hub (3.3ft Cable)",
+    price: 12.99,
+    cat: "accessories",
+    img: "https://m.media-amazon.com/images/I/61k9B8f0U2L._AC_SL1500_.jpg",
+    link: "https://amzn.to/4kob1ZO"
+  },
+  {
+    name: "LISEN Adjustable Cell Phone Stand",
+    price: 15.99,
+    cat: "accessories",
+    img: "https://m.media-amazon.com/images/I/71vunG12qML._AC_SL1500_.jpg",
+    link: "https://amzn.to/3MfHuVA"
+  },
+  {
+    name: "WOLFBOX MF50 Compressed Air Duster",
+    price: 59.99,
+    cat: "accessories",
+    img: "https://m.media-amazon.com/images/I/71O8-pY7XQL._AC_SL1500_.jpg",
+    link: "https://amzn.to/4a3298w"
+  },
+  {
+    name: "Lamicall Sticky Headphone Stand",
+    price: 11.99,
+    cat: "accessories",
+    img: "https://m.media-amazon.com/images/I/61Y-h7U70SL._AC_SL1500_.jpg",
+    link: "https://amzn.to/4kr2Dcc"
+  }
+];
+
+const list=document.getElementById("list");
+
+function stars(n=4){
+return "?".repeat(n)+"?".repeat(5-n);
+}
+
+function render(filter="all"){
+list.innerHTML="";
+products.forEach(p=>{
+if(filter==="all"||p.cat===filter){
+list.innerHTML+=`
+<div class="card">
+<div class="img-box"><img src="${p.img}"></div>
+<div class="title">${p.name}</div>
+<div class="rating">${stars(p.rate||4)}</div>
+<div class="price">$${p.price}</div>
+<a class="btn" href="${p.link}" target="_blank" rel="nofollow sponsored">
+BUY ON AMAZON
+</a>
+</div>`;
+}
+});
+}
+
+function filterProducts(cat,btn){
+document.querySelectorAll(".cat-btn").forEach(b=>b.classList.remove("active"));
+btn.classList.add("active");
+render(cat);
+toggleMenu();
+}
+
+function toggleMenu(){
+document.querySelector(".category-nav").classList.toggle("open");
+document.querySelector(".menu-toggle").classList.toggle("active");
+}
+
+const themeBtn=document.getElementById("theme-toggle");
+
+if(localStorage.getItem("theme")==="night"){
+document.body.classList.add("night");
+themeBtn.textContent="Day";
+}
+
+themeBtn.onclick=()=>{
+document.body.classList.toggle("night");
+const night=document.body.classList.contains("night");
+themeBtn.textContent=night?"?? Day":"?? Night";
+localStorage.setItem("theme",night?"night":"day");
+};
+document.body.classList.toggle("night");
+
+render();
+</script>
+
+</body>
+</html>
